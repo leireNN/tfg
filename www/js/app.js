@@ -32,6 +32,17 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     controller: 'AppCtrl'
   })
 
+  //Login
+  .state('app.login', {
+    url: '/login',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/log.html',
+        controller: 'Login'
+      }
+    }
+  })
+
   .state('app.search', {
     url: '/search',
     views: {
@@ -41,11 +52,12 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
-  .state('app.browse', {
-      url: '/browse',
+  .state('app.homeRecord', {
+      url: '/homeRecord',
       views: {
         'menuContent': {
-          templateUrl: 'templates/browse.html'
+          templateUrl: 'templates/homeRecord.html',
+          controller: 'HomeRecordCtrl'
         }
       }
     })
@@ -68,6 +80,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     }
   });
+
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/login');
 });

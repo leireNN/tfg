@@ -53,4 +53,35 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
+})
+.controller('Login', function($scope, $state) {
+  $scope.doLogin = function(){
+
+    if($scope.loginData.username == "Leire" && $scope.loginData.password == "1234"){
+      console.log("Haciendo login...");
+      $state.go('app.homeRecord');
+    }else{
+      console.log("Error en el login!");
+    }
+
+  };
+})
+
+.controller('HomeRecordCtrl', function($scope) {
+  $scope.textTranslate = "Texto traducido";
+  $scope.record = function(){
+    console.log("Reconocimiento de voz");
+    if (window.cordova && window.cordova.plugins.Keyboard) {
+      var maxMatches = 5;
+      var promptString = "Speak now"; // optional
+      var language = "en-US";                     // optional
+      window.plugins.speechrecognizer.startRecognize(function(result){
+          alert(result);
+      }, function(errorMessage){
+          console.log("Error message: " + errorMessage);
+      }, maxMatches, promptString, language);
+    }
+    //Introducir voz y transformar en texto para envío
+    //Pasar el texto al scope para que se vea en la pantalla
+  };
 });

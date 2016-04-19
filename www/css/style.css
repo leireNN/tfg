@@ -1,1 +1,7 @@
-/* Empty. Add your own CSS if you like */
+
+
+.imageHomeRecord {
+  border-radius:50%;
+  position: relative;
+  left:38%;
+}
