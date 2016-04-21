@@ -68,7 +68,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('HomeRecordCtrl', function($scope) {
-  $scope.textTranslate = "Texto traducido";
+  //$scope.textTranslate = "Texto traducido";
   $scope.record = function(){
     console.log("Reconocimiento de voz");
     if (window.cordova) {
@@ -76,7 +76,10 @@ angular.module('starter.controllers', [])
       var promptString = "Speak now"; // optional
       var language = "en-US";                     // optional
       window.plugins.speechrecognizer.startRecognize(function(result){
-          alert(result);
+        $scope.textTranslate = result[0];
+        $scope.$apply();
+          //alert(result);
+
       }, function(errorMessage){
           console.log("Error message: " + errorMessage);
       }, maxMatches, promptString, language);
