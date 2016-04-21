@@ -71,7 +71,7 @@ angular.module('starter.controllers', [])
   $scope.textTranslate = "Texto traducido";
   $scope.record = function(){
     console.log("Reconocimiento de voz");
-    if (window.cordova && window.cordova.plugins.Keyboard) {
+    if (window.cordova) {
       var maxMatches = 5;
       var promptString = "Speak now"; // optional
       var language = "en-US";                     // optional
