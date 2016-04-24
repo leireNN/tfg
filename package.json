@@ -25,7 +25,8 @@
     {
       "locator": "https://github.com/poiuytrez/SpeechRecognizer",
       "id": "cordova-plugin-speechrecognizer"
-    }
+    },
+    "cordova-plugin-tts"
   ],
   "cordovaPlatforms": [
     "ios",
