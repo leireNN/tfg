@@ -1,4 +1,5 @@
-angular.module('starter.controllers', [])
+
+angular.module('starter.controllers', ['ws'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
@@ -54,9 +55,20 @@ angular.module('starter.controllers', [])
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
-.controller('Login', function($scope, $state) {
-  $scope.doLogin = function(){
+.controller('Login', ['$scope','$state', 'ws', '$q', function($scope, $state, ws, $q) {
+  $scope.posts={};
+	getAllPosts = function(){
 
+		ws.getPatients().then(function (data){
+			console.log("DATA: " + data);
+		}).catch(function(err) {
+      console.log("Error en la petición de base de datos.");
+    });
+
+	}
+
+  $scope.doLogin = function(){
+    getAllPosts();
     if($scope.loginData.username == "Leire" && $scope.loginData.password == "1234"){
       console.log("Haciendo login...");
       $state.go('app.homeRecord');
@@ -65,7 +77,7 @@ angular.module('starter.controllers', [])
     }
 
   };
-})
+}])
 
 .controller('HomeRecordCtrl', function($scope) {
   //$scope.textTranslate = "Texto traducido";
