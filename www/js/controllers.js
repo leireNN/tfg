@@ -80,7 +80,7 @@ angular.module('starter.controllers', ['ws'])
 }])
 
 .controller('HomeRecordCtrl', function($scope) {
-  $scope.textTranslate = "Texto traducido";
+  //$scope.textTranslate = "Texto traducido";
   $scope.record = function(){
     console.log("Reconocimiento de voz");
     if (window.cordova) {
@@ -88,12 +88,40 @@ angular.module('starter.controllers', ['ws'])
       var promptString = "Speak now"; // optional
       var language = "en-US";                     // optional
       window.plugins.speechrecognizer.startRecognize(function(result){
-          alert(result);
+        $scope.textTranslate = result[0];
+        $scope.$apply();
+        if(result[0] == "hello")
+        {
+          TTS
+          .speak({
+              text: 'hello, i´m Moi!',
+              locale: 'en-US',
+              rate: 0.75
+          }, function () {
+              //alert('success');
+          }, function (reason) {
+              alert(reason);
+          });
+          //alert(result);
+        }
       }, function(errorMessage){
           console.log("Error message: " + errorMessage);
       }, maxMatches, promptString, language);
     }
     //Introducir voz y transformar en texto para envío
     //Pasar el texto al scope para que se vea en la pantalla
+  };
+
+  $scope.speech = function (){
+    TTS
+      .speak({
+          text: 'hello, world!',
+          locale: 'en-GB',
+          rate: 0.75
+      }, function () {
+          alert('success');
+      }, function (reason) {
+          alert(reason);
+      });
   };
 });
