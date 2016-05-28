@@ -1,5 +1,5 @@
 
-angular.module('starter.controllers', ['ws'])
+angular.module('starter.controllers', ['ws', 'ionic-timepicker'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
@@ -14,8 +14,9 @@ angular.module('starter.controllers', ['ws'])
   $scope.loginData = {};
 
   // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
+  $ionicModal.fromTemplateUrl('templates/alarmDetail.html', {
     scope: $scope
+
   }).then(function(modal) {
     $scope.modal = modal;
   });
@@ -42,19 +43,55 @@ angular.module('starter.controllers', ['ws'])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
+.controller('Pills', function($scope) {
+  console.log("Pills controller2");
   $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
+    { title: 'Nolotil', id: 1, time: '10:30' },
+    { title: 'Primperan', id: 2, time: '10:00' },
+    { title: 'Ibuprofeno', id: 3, time: '16:30' },
+    { title: 'Doxazosina', id: 4, time: '22:00' },
+    { title: 'Dalsy', id: 5, time: '22:30' },
+    { title: 'Astorbastatina', id: 6, time: '16:00' }
   ];
+
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('Settings', function($scope) {
+  console.log("Settings controller");
+
 })
+
+.controller('Info', function($scope) {
+  console.log("Info controller");
+
+})
+
+.controller('PillDetail', function($scope, ionicTimePicker) {
+  console.log("Pills detail controller");
+
+  $scope.openTime = function(){
+    console.log("openTime function");
+    var ipObj1 = {
+    callback: function (val) {      //Mandatory
+      if (typeof (val) === 'undefined') {
+        console.log('Time not selected');
+      } else {
+        var selectedTime = new Date(val * 1000);
+        var time = selectedTime.getUTCHours() + ":" + selectedTime.getUTCMinutes() + "";
+        console.log(time);
+        $scope.timeValue = time;
+      }
+    },
+      inputTime: 50400,   //Optional
+      format: 24,         //Optional
+      step: 15,           //Optional
+      setLabel: 'Set2'    //Optional
+    };
+
+    ionicTimePicker.openTimePicker(ipObj1);
+  }
+})
+
 .controller('Login', ['$scope','$state', 'ws', '$q', function($scope, $state, ws, $q) {
   $scope.posts={};
 	getAllPosts = function(){

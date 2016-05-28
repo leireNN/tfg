@@ -1,0 +1,25 @@
+<ion-header-bar>
+  <h1 class="title">Settings</h1>
+  <div class="buttons">
+    <button class="button button-clear" ng-click="closeLogin()">Close</button>
+  </div>
+</ion-header-bar>
+<ion-view view-title="Settings">
+  <ion-content>
+  <div class="list">
+    <label class = "item item-input item-select">
+       <div class = "input-label">
+          Lenguage
+       </div>
+       <select>
+          <option selected>English</option>
+          <option >Spanish</option>
+       </select>
+    </label>
+    <label class="item">
+      <button id="changeLenguageButton" class="button button-block button-positive" ng-click="changeLenguage()"> Change lenguage</button>
+    </label>
+ </div>
+
+  </ion-content>
+</ion-view>

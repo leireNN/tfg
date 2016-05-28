@@ -1,7 +1,7 @@
 
 angular.module('ws', [])//Declaramos el modulo
 	.factory('ws', function($http, $q) { //declaramos la factory
-		var path = "http://localhost:3000";//API path
+		var path = "http://localhost:3000/";//API path
 		return {
 			//Login
       getPatients : function(){ //Retornara la lista de posts

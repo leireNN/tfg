@@ -1,0 +1,24 @@
+<ion-view view-title="Info">
+  <ion-content>
+    <ion-list>
+
+      <ion-item>
+        <ion-label floating>Last info:</ion-label>
+        <ion-textarea class="msd-elastic">fhfkshfkdjshfdskhfdskfhdshf fhdkjfhsd khfdjkfhsd hjkdhsfk jfksdhsfdjkh fdhsjkhksdhskf hjfksdhf dsjkaldjs kdsj</ion-textarea>
+      </ion-item>
+
+      <ion-item ng-repeat="playlist in playlists" ng-click="">
+        <p>
+          <div class="pillContainer" href="#/app/pillDetail">
+            <div class="pillName">
+              {{playlist.title}}
+            </div>
+            <div class="pillTime">
+              {{playlist.time}}
+            </div>
+          </div>
+        </p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

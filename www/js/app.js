@@ -43,14 +43,6 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
-  .state('app.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html'
-      }
-    }
-  })
 
   .state('app.homeRecord', {
       url: '/homeRecord',
@@ -61,16 +53,43 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       }
     })
-    .state('app.playlists', {
-      url: '/playlists',
+    .state('app.pills', {
+      url: '/pills',
       views: {
         'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
+          templateUrl: 'templates/alarms.html',
+          controller: 'Pills'
+        }
+      }
+    })
+    .state('app.pillDetail', {
+      url: '/pillDetail',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/alarmDetail.html',
+          controller: 'PillDetail'
+        }
+      }
+    })
+    .state('app.settings', {
+      url: '/settings',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/config.html',
+          controller: 'Settings'
         }
       }
     })
 
+    .state('app.info', {
+      url: '/info',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/info.html',
+          controller: 'Info'
+        }
+      }
+    })
   .state('app.single', {
     url: '/playlists/:playlistId',
     views: {

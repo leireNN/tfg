@@ -1,0 +1,54 @@
+<ion-header-bar>
+  <h1 class="title">Pill detail</h1>
+  <div class="buttons">
+    <button class="button button-clear" ng-click="closeLogin()">Close</button>
+  </div>
+</ion-header-bar>
+<ion-view view-title="Pill Detail" ng-controller="PillDetail">
+  <ion-content>
+  <div class="list">
+    <label class = "item item-input item-select">
+       <div class = "input-label">
+          Type
+       </div>
+       <select>
+          <option selected>Pill</option>
+          <option >Cite</option>
+          <option>Alarm</option>
+       </select>
+    </label>
+
+    <label class = "item item-input item-select">
+       <div class = "input-label">
+          Pills
+       </div>
+       <select>
+          <option>Nolotil</option>
+          <option selected>Primperan</option>
+          <option>Ibuprofeno</option>
+       </select>
+    </label>
+
+
+   <label class="item item-input">
+     <div class = "input-label">
+        Description
+     </div>
+     <input type="text" placeholder="Description">
+   </label>
+   <label class="item item-input">
+     <div id="timeText" class = "input-label">
+        Time
+     </div>
+     <input type="text" placeholder="Time" value="{{timeValue}}">
+   </label>
+   <label class="item">
+     <button class="button button-block button-positive" ng-click="openTime()"> Set time</button>
+   </label>
+   <label class="item">
+     <button class="button button-block button-assertive button-positive" ng-click="openTime()"> Delete alarm</button>
+   </label>
+ </div>
+
+  </ion-content>
+</ion-view>

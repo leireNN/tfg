@@ -1,0 +1,22 @@
+
+<ion-view view-title="Pills">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="playlist in playlists" ng-click="login()">
+        <p>
+          <div class="pillContainer" href="#/app/pillDetail">
+            <div class="pillName">
+              {{playlist.title}}
+            </div>
+            <div class="pillTime">
+              {{playlist.time}}
+            </div>
+          </div>
+        </p>
+      </ion-item>
+      <label class="item">
+        <button class="button button-block button-positive" type="submit">Add alarm</button>
+      </label>
+    </ion-list>
+  </ion-content>
+</ion-view>

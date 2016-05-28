@@ -3,5 +3,24 @@
 .imageHomeRecord {
   border-radius:50%;
   position: relative;
-  left:38%;
+  width: 120%;
+  /*left:38%;*/
+}
+.pillName{
+  width: 50%;
+  position: relative;
+  padding-left: 25px;
+}
+.pillTime{
+  width: 50%;
+  position: relative;
+  padding-left: 25px;
+}
+.pillContainer div{
+  float: left;
+  clear: none;
+  margin-left: : 30px;
+}
+.addAlarm {
+  position: fixed;
 }
