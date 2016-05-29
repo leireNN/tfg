@@ -1,0 +1,25 @@
+<ion-view view-title="Historial">
+  <ion-content>
+    <ion-list>
+
+      <ion-item ng-repeat="conversation in historial" ng-click="">
+        <p>
+          <a class="item item-icon-left " href="#">
+
+              <!--{{conversation.title}}-->
+              <ion-label floating>Time: {{conversation.time}}</ion-label>
+              <ion-item class="item" ng-click="resize()">
+
+                <textarea id="page_content" class="msd-elastic">{{conversation.title}}</textarea>
+              </ion-item>
+
+          </a>
+        </p>
+      </ion-item>
+
+    </ion-list>
+    <label class="item">
+      <button class="button button-block button-default button-energized" ng-click="resetAlarm()">Reset alarm list</button>
+    </label>
+  </ion-content>
+</ion-view>

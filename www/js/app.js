@@ -43,6 +43,25 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
+  .state('app.register', {
+    url: '/register',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/register.html',
+        controller: 'Register'
+      }
+    }
+  })
+
+  .state('app.resetPass', {
+    url: '/resetPass',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/resetPass.html',
+        controller: 'ResetPass'
+      }
+    }
+  })
 
   .state('app.homeRecord', {
       url: '/homeRecord',
@@ -87,6 +106,26 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         'menuContent': {
           templateUrl: 'templates/info.html',
           controller: 'Info'
+        }
+      }
+    })
+
+    .state('app.historial', {
+      url: '/historial',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/historial.html',
+          controller: 'Historial'
+        }
+      }
+    })
+
+    .state('app.terms', {
+      url: '/terms',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/terms.html',
+          controller: 'Terms'
         }
       }
     })

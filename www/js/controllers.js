@@ -43,6 +43,14 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker'])
   };
 })
 
+.controller('Register',['$scope','$state', 'ws', '$q', function($scope, $state, ws, $q) {
+  console.log("Register controller");
+  $scope.showTerms = function(){
+    $state.go('app.terms');
+  };
+}])
+
+
 .controller('Pills', function($scope) {
   console.log("Pills controller2");
   $scope.playlists = [
@@ -57,14 +65,55 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker'])
 })
 
 .controller('Settings', function($scope) {
-  console.log("Settings controller");
+  console.log("Settings controller...");
 
 })
 
 .controller('Info', function($scope) {
-  console.log("Info controller");
+  console.log("Info controller...");
+  $scope.alarms = [
+    { title: 'Damage!', id: 1, time: '10:30' },
+    { title: 'It hurts', id: 2, time: '10:00' },
+    { title: 'It really hurts', id: 6, time: '16:00' }
+  ];
+  $scope.resize = function(){
+    console.log("Resizing...");
+    var element = document.getElementById("page_content");
+    element.style.height = element.scrollHeight + "px";
+  };
+})
+
+.controller('ResetPass', function($scope) {
+  console.log("ResetPass controller");
+  $scope.sendEmail = function(){
+    console.log("Sending email to reset password...");
+  };
 
 })
+
+.controller('Terms', function($scope) {
+  console.log("Terms controller");
+
+})
+
+
+.controller('Historial', function($scope) {
+  console.log("Historial controller...");
+
+  $scope.historial = [
+    { title: 'fhfkshfkdjshfdskhfdskfhdshf fhdkjfhsd khfdjkfhsd hjkdhsfk jfksdhsfdjkh fdhsjkhksdhskf hjfksdhf dsjkaldjs kdsj!', id: 1, time: '10:30' },
+    { title: 'It fhfkshfkdjshfdskhfdskfhdshf fhdkjfhsd khfdjkfhsd hjkdhsfk jfksdhsfdjkh fdhsjkhksdhskf hjfksdhf dsjkaldjs kdsj', id: 2, time: '10:00' },
+    { title: 'It really hurts fhfkshfkdjshfdskhfdskfhdshf fhdkjfhsd khfdjkfhsd hjkdhsfk jfksdhsfdjkh fdhsjkhksdhskf hjfksdhf dsjkaldjs kdsj', id: 6, time: '16:00' }
+  ];
+
+  $scope.resize = function(){
+    console.log("Resizing...");
+    var element = document.getElementById("page_content");
+    element.style.height = element.scrollHeight + "px";
+  };
+
+})
+
 
 .controller('PillDetail', function($scope, ionicTimePicker) {
   console.log("Pills detail controller");
@@ -113,6 +162,14 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker'])
       console.log("Error en el login!");
     }
 
+  };
+  $scope.goToRegister = function(){
+    $state.go('app.register');
+
+  };
+
+  $scope.resetPass = function(){
+    $state.go('app.resetPass');
   };
 }])
 

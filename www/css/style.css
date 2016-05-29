@@ -24,3 +24,6 @@
 .addAlarm {
   position: fixed;
 }
+#page_content{
+  width: 100%;
+}

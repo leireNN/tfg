@@ -2,23 +2,26 @@
   <ion-content>
     <ion-list>
 
-      <ion-item>
+      <ion-item class="item" ng-click="resize()">
         <ion-label floating>Last info:</ion-label>
-        <ion-textarea class="msd-elastic">fhfkshfkdjshfdskhfdskfhdshf fhdkjfhsd khfdjkfhsd hjkdhsfk jfksdhsfdjkh fdhsjkhksdhskf hjfksdhf dsjkaldjs kdsj</ion-textarea>
+        <textarea id="page_content" class="msd-elastic">fhfkshfkdjshfdskhfdskfhdshf fhdkjfhsd khfdjkfhsd hjkdhsfk jfksdhsfdjkh fdhsjkhksdhskf hjfksdhf dsjkaldjs kdsj</textarea>
       </ion-item>
 
-      <ion-item ng-repeat="playlist in playlists" ng-click="">
+      <ion-item ng-repeat="alarm in alarms" ng-click="">
         <p>
-          <div class="pillContainer" href="#/app/pillDetail">
-            <div class="pillName">
-              {{playlist.title}}
-            </div>
-            <div class="pillTime">
-              {{playlist.time}}
-            </div>
-          </div>
+          <a class="item item-icon-left " href="#">
+
+              {{alarm.title}}
+
+              {{alarm.time}}
+              <i class="icon ion-android-warning"></i>
+          </a>
         </p>
       </ion-item>
+
     </ion-list>
+    <label class="item">
+      <button class="button button-block button-default button-energized" ng-click="resetAlarm()">Reset alarm list</button>
+    </label>
   </ion-content>
 </ion-view>
