@@ -1,11 +1,12 @@
 
-<ion-view view-title="HomeRecord">
+<ion-view view-title="Mooi">
   <ion-content>
 
     <div class="list">
       <a class="item item-thumbnail-left" href="#" >
         <img src="./img/mooi.png" class="imageHomeRecord">
-        <h2>You:{{textTranslate}}</h2>
+        <p>You:{{textTranslate}}</p>
+        <p>Mooi:{{textResponse}} </p>
       </a>
     </div>
     <label class="item">
@@ -15,7 +16,7 @@
       <button class="button button-block button-positive" ng-click="speech()">Speech</button>
     </label>-->
     <label class="item">
-      <button class="button button-block button-positive" ng-click="disconect()">Disconnect</button>
+      <button class="button button-block button-positive" ng-click="logout()">Disconnect</button>
     </label>
   </ion-content>
 </ion-view>

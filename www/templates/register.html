@@ -1,4 +1,4 @@
-<ion-modal-view view-title="Register">
+<ion-view view-title="Register">
   <ion-header-bar>
     <h1 class="title">Register</h1>
     <div class="buttons">
@@ -36,16 +36,16 @@
           <span class="input-label">Confirm password</span>
           <input type="password" ng-model="loginData.password">
         </label>
-        <ion-item class="item item-checkbox item-checkbox-checked">
-          <ion-checkbox checked="true" secondary="">
-              <div class="checkbox-inner">
+        <ion-item   class="item item-checkbox item-checkbox-checked">
+          <ion-checkbox id="termsCheck" checked="true" secondary="">
+
                 <div class="">
-                  <div class="input-wrapper">
-                    <ion-label id="lbl-53">I agree to <a ng-click="showTerms()">terms and conditions</a></ion-label>
+                  <div id="termsLabel" class="input-wrapper">
+                    <ion-label >I agree to <a ng-click="showTerms()">terms and conditions</a></ion-label>
                     <!--template bindings={}-->
                   </div>
                 </div>
-              </div>
+
           </ion-checkbox>
 
                   <ion-button-effect></ion-button-effect>
@@ -56,4 +56,4 @@
       </div>
     </form>
   </ion-content>
-</ion-modal-view>
+</ion-view>

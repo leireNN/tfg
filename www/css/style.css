@@ -27,3 +27,10 @@
 #page_content{
   width: 100%;
 }
+
+#termsLabel{
+  z-index: 0;
+}
+#termsCheck{
+  z-index: 10;
+}

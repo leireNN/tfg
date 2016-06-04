@@ -43,12 +43,14 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker'])
   };
 })
 
-.controller('Register',['$scope','$state', 'ws', '$q', function($scope, $state, ws, $q) {
-  console.log("Register controller");
-  $scope.showTerms = function(){
-    $state.go('app.terms');
-  };
-}])
+.controller('Register',['$scope','$state', 'ws', '$q',
+  function($scope, $state, ws, $q) {
+    console.log("Register controller");
+    $scope.showTerms = function(){
+      $state.go('app.terms');
+    };
+  }
+])
 
 
 .controller('Pills', function($scope) {
@@ -69,13 +71,21 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker'])
 
 })
 
-.controller('Info', function($scope) {
+.controller('Info', function($scope, $interval) {
   console.log("Info controller...");
   $scope.alarms = [
-    { title: 'Damage!', id: 1, time: '10:30' },
     { title: 'It hurts', id: 2, time: '10:00' },
+    { title: 'Damage!', id: 1, time: '10:30' },
     { title: 'It really hurts', id: 6, time: '16:00' }
   ];
+
+  function readAlarms() {
+      $scope.alarms.push({ title: 'Damage!', id: 1, time: '10:30' });
+  }
+
+  var DELAY = 1000;
+  $interval(readAlarms, DELAY);
+
   $scope.resize = function(){
     console.log("Resizing...");
     var element = document.getElementById("page_content");
@@ -101,9 +111,9 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker'])
   console.log("Historial controller...");
 
   $scope.historial = [
-    { title: 'fhfkshfkdjshfdskhfdskfhdshf fhdkjfhsd khfdjkfhsd hjkdhsfk jfksdhsfdjkh fdhsjkhksdhskf hjfksdhf dsjkaldjs kdsj!', id: 1, time: '10:30' },
-    { title: 'It fhfkshfkdjshfdskhfdskfhdshf fhdkjfhsd khfdjkfhsd hjkdhsfk jfksdhsfdjkh fdhsjkhksdhskf hjfksdhf dsjkaldjs kdsj', id: 2, time: '10:00' },
-    { title: 'It really hurts fhfkshfkdjshfdskhfdskfhdshf fhdkjfhsd khfdjkfhsd hjkdhsfk jfksdhsfdjkh fdhsjkhksdhskf hjfksdhf dsjkaldjs kdsj', id: 6, time: '16:00' }
+    { title: 'It hurt, i´m really feel bad.', id: 1, time: '10:30' },
+    { title: 'I already took the pill , I do not feel very well, I have to rest', id: 2, time: '10:00' },
+    { title: 'Its hot I feel suffocated', id: 6, time: '16:00' }
   ];
 
   $scope.resize = function(){
@@ -126,7 +136,8 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker'])
         console.log('Time not selected');
       } else {
         var selectedTime = new Date(val * 1000);
-        var time = selectedTime.getUTCHours() + ":" + selectedTime.getUTCMinutes() + "";
+        var time = selectedTime.getUTCHours() + ":" +
+          selectedTime.getUTCMinutes() + "";
         console.log(time);
         $scope.timeValue = time;
       }
@@ -141,42 +152,75 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker'])
   }
 })
 
-.controller('Login', ['$scope','$state', 'ws', '$q', function($scope, $state, ws, $q) {
-  $scope.posts={};
-	getAllPosts = function(){
+.controller('Login', ['$scope','$state', 'ws', '$q', '$ionicPopup',
+  function($scope, $state, ws, $q, $ionicPopup) {
+    $scope.posts={};
+  	getAllPatients = function(){
+  		ws.getPatients().then(function (data){
+  			console.log("DATA: " + data);
+  		}).catch(function(err) {
+        console.log("Error en la petición de base de datos.");
+      });
+  	};
+    login = function(username, password){
+      ws.login().then(function (result){
+        console.log("DATA: " + result);
+      }).catch(function(err) {
+        console.log("Error en la petición de base de datos.");
+      });
+    };
+    showAlert = function() {
+     var alertPopup = $ionicPopup.alert({
+       title: 'User or password incorrect!',
+       template: 'Please check data.'
+     });
+   };
+    $scope.doLogin = function(){
+      //getAllPatients();
+      if($scope.loginData.username == null || $scope.loginData.password == null){
+            showAlert();
+      }else{
+        ws.login($scope.loginData.username, $scope.loginData.password).then(function (result){
 
-		ws.getPatients().then(function (data){
-			console.log("DATA: " + data);
-		}).catch(function(err) {
-      console.log("Error en la petición de base de datos.");
-    });
+          console.log("DATA: " + JSON.stringify(result.data));
+          if(result.data){
+            $state.go('app.homeRecord');
+          }else {
+            showAlert();
+          }
 
-	}
+        }).catch(function(err) {
+          showAlert();
+          console.log("Error en la petición de base de datos." + err);
+        });
+      }
+      // if($scope.loginData.username == "Leire" &&
+      //   $scope.loginData.password == "1234") {
+      //     console.log("Haciendo login...");
+      //     $state.go('app.homeRecord');
+      // }else{
+      //   console.log("Error en el login!");
+      // }
 
-  $scope.doLogin = function(){
-    getAllPosts();
-    if($scope.loginData.username == "Leire" && $scope.loginData.password == "1234"){
-      console.log("Haciendo login...");
-      $state.go('app.homeRecord');
-    }else{
-      console.log("Error en el login!");
-    }
+    };
+    $scope.goToRegister = function(){
+      $state.go('app.register');
 
-  };
-  $scope.goToRegister = function(){
-    $state.go('app.register');
+    };
 
-  };
+    $scope.resetPass = function(){
+      $state.go('app.resetPass');
+    };
+  }
+])
 
-  $scope.resetPass = function(){
-    $state.go('app.resetPass');
-  };
-}])
-
-.controller('HomeRecordCtrl', function($scope) {
+.controller('HomeRecordCtrl',['$scope','$state', 'ws', '$q', '$ionicPopup',
+  function($scope, $state, ws, $q, $ionicPopup) {
   //$scope.textTranslate = "Texto traducido";
   $scope.record = function(){
     console.log("Reconocimiento de voz");
+
+
     if (window.cordova) {
       var maxMatches = 5;
       var promptString = "Speak now"; // optional
@@ -184,6 +228,12 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker'])
       window.plugins.speechrecognizer.startRecognize(function(result){
         $scope.textTranslate = result[0];
         $scope.$apply();
+        ws.sendSpeech(result[0]).then(function (result){
+          console.log("DATA: " + JSON.stringify(result.data));
+          $scope.textResponse = result.data;
+        }).catch(function(err) {
+          console.log("Error en la petición de base de datos.");
+        });
         if(result[0] == "hello")
         {
           TTS
@@ -218,4 +268,9 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker'])
           alert(reason);
       });
   };
-});
+
+  $scope.logout = function(){
+    console.log("Logout...");
+    $state.go('app.login');
+  };
+}]);
