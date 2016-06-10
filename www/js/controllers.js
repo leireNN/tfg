@@ -71,27 +71,57 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker'])
 
 })
 
-.controller('Info', function($scope, $interval) {
+.controller('Info', ['$scope', '$interval', '$state', 'ws', '$q', '$ionicPopup',
+  function($scope, $interval, $state, ws, $q, $ionicPopup) {
   console.log("Info controller...");
-  $scope.alarms = [
-    { title: 'It hurts', id: 2, time: '10:00' },
-    { title: 'Damage!', id: 1, time: '10:30' },
-    { title: 'It really hurts', id: 6, time: '16:00' }
-  ];
+  function getLastConversations(){
+      var number = 2;
+      console.log("Reading last " + number + " alarms...");
+      ws.getLastConversations(localStorage.getItem("userId"), number).then(function (result){
+        console.log("DATA: " + JSON.stringify(result));
+        $scope.conversations = [];
+        for(var conversation in result.data){
+          console.log(conversation + "******" + JSON.stringify(result.data[conversation]));
 
+          var time = result.data[conversation].time;
+          time = time.replace("T", " ");
+          time = time.substring(0,19);
+
+          $scope.conversations.push({ userText: result.data[conversation].userText + conversation, id:result.data[conversation].userId , time: time, iaText: result.data[conversation].iaText });
+        }
+      }).catch(function(err) {
+        console.log("Error en la petición de base de datos.");
+      });
+  };
   function readAlarms() {
-      $scope.alarms.push({ title: 'Damage!', id: 1, time: '10:30' });
+      ws.getAlarms(localStorage.getItem("userId")).then(function (result){
+        console.log("DATA: " + JSON.stringify(result));
+        $scope.alarms = [];
+        for(var alarm in result.data){
+
+          var time = result.data[alarm].time;
+          time = time.replace("T", " ");
+          time = time.substring(0,19);
+
+          $scope.alarms.push({ title: result.data[alarm].userText, id:result.data[alarm].userId , time: time });
+        }
+      }).catch(function(err) {
+        console.log("Error en la petición de base de datos.");
+      });
+
+
   }
 
-  var DELAY = 1000;
+  var DELAY = 5000;
   $interval(readAlarms, DELAY);
+  $interval(getLastConversations, DELAY);
 
   $scope.resize = function(){
     console.log("Resizing...");
     var element = document.getElementById("page_content");
     element.style.height = element.scrollHeight + "px";
   };
-})
+}])
 
 .controller('ResetPass', function($scope) {
   console.log("ResetPass controller");
@@ -183,7 +213,9 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker'])
         ws.login($scope.loginData.username, $scope.loginData.password).then(function (result){
 
           console.log("DATA: " + JSON.stringify(result.data));
-          if(result.data){
+          if(result.data.result){
+            localStorage.setItem("userId", result.data.userId);
+            //TO-DO Distinguir entre usuario dependiente y usuario responsable
             $state.go('app.homeRecord');
           }else {
             showAlert();
@@ -191,7 +223,7 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker'])
 
         }).catch(function(err) {
           showAlert();
-          console.log("Error en la petición de base de datos." + err);
+          console.log("Error en la petición de base de datos." + JSON.stringify(err));
         });
       }
       // if($scope.loginData.username == "Leire" &&

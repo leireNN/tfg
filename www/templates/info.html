@@ -4,18 +4,26 @@
 
       <ion-item class="item" ng-click="resize()">
         <ion-label floating>Last info:</ion-label>
-        <textarea id="page_content" class="msd-elastic">
-          You:{{textTranslate}}It hurts!
-          Mooi:{{textResponse}}Don´t worry about, I raise the alarm. </textarea>
+        <ion-item ng-repeat="conversation in conversations" ng-click="">
+          <ion-item class="item" ng-click="resize()">
+            <textarea id="page_content" class="msd-elastic">
+
+                      Time:{{conversation.time}}
+                      User:{{conversation.userText}}
+                      Mooi: {{conversation.iaText}}
+
+
+            </textarea>
+        </ion-item>
+      </ion-item>
       </ion-item>
 
       <ion-item ng-repeat="alarm in alarms" ng-click="">
         <p>
           <a class="item item-icon-left " href="#">
-
-              {{alarm.title}}
-
               {{alarm.time}}
+              <br>
+              {{alarm.title}}
               <i class="icon ion-android-warning"></i>
           </a>
         </p>
