@@ -2,6 +2,7 @@
   "name": "mooi",
   "version": "1.1.1",
   "description": "mooi: An Ionic project",
+  "license": "MIT",
   "dependencies": {
     "elastic": "^0.1.10",
     "gulp": "^3.5.6",

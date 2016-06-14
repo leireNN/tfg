@@ -2,7 +2,7 @@
   <ion-content>
     <ion-list>
 
-      <ion-item class="item" ng-click="resize()">
+      <ion-item class="item" ng-click="resize($event)">
         <ion-label floating>Last info:</ion-label>
         <ion-item ng-repeat="conversation in conversations" ng-click="">
           <ion-item class="item" ng-click="resize()">
@@ -18,12 +18,15 @@
       </ion-item>
       </ion-item>
 
-      <ion-item ng-repeat="alarm in alarms" ng-click="">
+      <ion-item
+          ng-repeat="alarm in alarms"
+          ng-click=""
+          ng-class="'item-' + alarm.color">
         <p>
-          <a class="item item-icon-left " href="#">
+          <a class="item item-icon-left" ng-class="'item-' + alarm.color" href="#">
               {{alarm.time}}
               <br>
-              {{alarm.title}}
+              {{alarm.userText}}
               <i class="icon ion-android-warning"></i>
           </a>
         </p>

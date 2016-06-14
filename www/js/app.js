@@ -124,7 +124,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: '/terms',
       views: {
         'menuContent': {
-          templateUrl: 'templates/terms.html',
+          templateUrl: 'templates/historial.html',
           controller: 'Terms'
         }
       }

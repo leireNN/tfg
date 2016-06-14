@@ -10,17 +10,13 @@
           <span class="input-label">Password</span>
           <input type="password" ng-model="loginData.password">
         </label>
-        <ul class="list">
-          <li class="item item-toggle">
-             Are you responsible user?
-             <label class="toggle toggle-positive">
-               <input type="checkbox" checked="">
-               <div class="track">
-                 <div class="handle"></div>
-               </div>
-             </label>
-          </li>
-      </ul>
+        <ion-toggle
+            toggle-class="toggle-calm"
+            ng-model="loginData.isResponsable"
+            ng-checked="loginData.isResponsable">
+          Are you responsible user?
+        </ion-toggle>
+
         <label class="item">
           <button class="button button-block button-positive" ng-click="doLogin()">Log in</button>
         </label>

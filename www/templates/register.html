@@ -34,7 +34,7 @@
         </label>
         <label class="item item-input">
           <span class="input-label">Confirm password</span>
-          <input type="password" ng-model="loginData.password">
+          <input type="password" ng-model="registerData.password2">
         </label>
         <ion-item   class="item item-checkbox item-checkbox-checked">
           <ion-checkbox id="termsCheck" checked="true" secondary="">
@@ -51,7 +51,10 @@
                   <ion-button-effect></ion-button-effect>
         </ion-item>
         <label class="item">
-          <button class="button button-block button-positive" type="submit">Register</button>
+          <button class="button button-block button-positive" ng-click="register()">Register</button>
+        </label>
+        <label class="item">
+          <button class="button button-block button-balanced" ng-click="goLogin()">Login</button>
         </label>
       </div>
     </form>
