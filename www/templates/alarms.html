@@ -6,8 +6,11 @@
         <p>
           <div class="pillContainer" href="#/app/pillDetail">
             <div class="pillName">
-              {{playlist.title}}
+              {{playlist.description}}
+              <br>
+              {{playlist.name}}
             </div>
+            <br>
             <div class="pillTime">
               {{playlist.time}}
             </div>
@@ -15,7 +18,7 @@
         </p>
       </ion-item>
       <label class="item">
-        <button class="button button-block button-positive" type="submit">Add alarm</button>
+        <button class="button button-block button-positive" ng-click="createAlarm()">Add alarm</button>
       </label>
     </ion-list>
   </ion-content>

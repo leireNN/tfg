@@ -7,18 +7,31 @@
 <ion-view view-title="Settings">
   <ion-content>
   <div class="list">
+    <form>
     <label class = "item item-input item-select">
        <div class = "input-label">
-          Lenguage
+          Language
        </div>
        <select>
-          <option selected>English</option>
-          <option >Spanish</option>
+          <option>English</option>
+          <option selected>Spanish</option>
        </select>
     </label>
     <label class="item">
       <button id="changeLanguageButton" class="button button-block button-positive" ng-click="changeLanguage()"> Change language</button>
     </label>
+    <label class="item item-input">
+      <span class="input-label">Path</span>
+      <input type="text" ng-model="path">
+    </label>
+    <label class="item">
+      <button
+          class="button button-block button-positive"
+          ng-click="setPath(path)">
+        Setup
+      </button>
+    </label>
+    </form>
  </div>
 
   </ion-content>

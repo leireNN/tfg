@@ -34,19 +34,19 @@
      <div class = "input-label">
         Description
      </div>
-     <input type="text" placeholder="Description">
+     <input type="text" placeholder="Description" ng-model="alarmDescription">
    </label>
    <label class="item item-input">
      <div id="timeText" class = "input-label">
         Time
      </div>
-     <input type="text" placeholder="Time" value="{{timeValue}}">
+     <input type="text" placeholder="Time" ng-model="timeValue">
    </label>
    <label class="item">
      <button class="button button-block button-positive" ng-click="openTime()"> Set time</button>
    </label>
    <label class="item">
-     <button class="button button-block button-assertive button-positive" ng-click="openTime()"> Delete alarm</button>
+     <button class="button button-block button-balanced button-positive" ng-click="saveAlarm(timeValue, alarmDescription)"> Save alarm</button>
    </label>
  </div>
 

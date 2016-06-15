@@ -5,16 +5,14 @@
       <ion-item class="item" ng-click="resize($event)">
         <ion-label floating>Last info:</ion-label>
         <ion-item ng-repeat="conversation in conversations" ng-click="">
-          <ion-item class="item" ng-click="resize()">
-            <textarea id="page_content" class="msd-elastic">
 
-                      Time:{{conversation.time}}
-                      User:{{conversation.userText}}
-                      Mooi: {{conversation.iaText}}
-
-
-            </textarea>
-        </ion-item>
+            <a class="item item-icon-left" ng-class="'item-' + alarm.color" href="#">
+                Time:{{conversation.time}}
+                <br>
+                User:{{conversation.userText}}
+                <br>
+                Mooi: {{conversation.iaText}}
+            </a>
       </ion-item>
       </ion-item>
 

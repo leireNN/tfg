@@ -7,7 +7,7 @@
   /*left:38%;*/
 }
 .pillName{
-  width: 50%;
+  word-wrap: break-word !important;
   position: relative;
   padding-left: 25px;
 }

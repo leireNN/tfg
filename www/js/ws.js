@@ -1,14 +1,20 @@
 
 angular.module('ws', [])//Declaramos el modulo
 	.factory('ws', function($http, $q) { //declaramos la factory
-		var path = "http://172.20.10.9:3000/";//API path
+		var path = "http://localhost:3000/";//API path
+
+		function getPath() {
+			// return $routeScope.url || path;
+			return path;
+		}
+
 		return {
 			//Login
       getPatients : function(){ //Retornara la lista de posts
         var defered = $q.defer();
         var promise = defered.promise;
 
-        $http.get(path)
+        $http.get(getPath())
 					.success(function(data) {
             defered.resolve(data);
           })
@@ -17,11 +23,11 @@ angular.module('ws', [])//Declaramos el modulo
           });
 
         return promise;
-				// return $http.get(path);
+				// return $http.get(getPath());
 			},
 
 			getPatient : function(id){ //retornara el post por el id
-				global = $http.get(path+'posts/'+id);
+				global = $http.get(getPath()+'posts/'+id);
 				return global;
 			},
 
@@ -34,7 +40,7 @@ angular.module('ws', [])//Declaramos el modulo
 				};
 				$http.defaults.headers.post["Content-Type"] = "application/json";
 				$http({
-	        url: path + 'users/login',
+	        url: getPath() + 'users/login',
 	        method: "POST",
 	        data: data
 			  }).then(function(response) {
@@ -54,7 +60,7 @@ angular.module('ws', [])//Declaramos el modulo
 				console.log("User Data: " +  JSON.stringify(userData));
 				$http.defaults.headers.post["Content-Type"] = "application/json";
 				$http({
-	        url: path + 'users/register',
+	        url: getPath() + 'users/register',
 	        method: "POST",
 	        data: userData
 			  }).then(function(response) {
@@ -73,12 +79,13 @@ angular.module('ws', [])//Declaramos el modulo
 				var defered = $q.defer();
         var promise = defered.promise;
 				var data = {
-					userText: text
+					userText: text,
+					userId: localStorage.getItem("userId")
 				};
-				console.log("Envío de texto con : " + text + "Y ruta : " + path);
+				console.log("Envío de texto con : " + text + "Y ruta : " + getPath());
 				$http.defaults.headers.post["Content-Type"] = "application/json";
 				$http({
-	        url: path + 'text',
+	        url: getPath() + 'text',
 	        method: "POST",
 	        data: data
 			  }).then(function(response) {
@@ -100,7 +107,7 @@ angular.module('ws', [])//Declaramos el modulo
 				};
 				$http.defaults.headers.post["Content-Type"] = "application/json";
 				$http({
-	        url: path + 'users/alarms',
+	        url: getPath() + 'users/alarms',
 	        method: "POST",
 	        data: data
 			  }).then(function(response) {
@@ -122,7 +129,7 @@ angular.module('ws', [])//Declaramos el modulo
 				};
 				$http.defaults.headers.post["Content-Type"] = "application/json";
 				$http({
-	        url: path + 'users/getNotifications',
+	        url: getPath() + 'users/getNotifications',
 	        method: "POST",
 	        data: data
 			  }).then(function(response) {
@@ -145,7 +152,7 @@ angular.module('ws', [])//Declaramos el modulo
 				};
 				$http.defaults.headers.post["Content-Type"] = "application/json";
 				$http({
-	        url: path + 'users/getLastConversations',
+	        url: getPath() + 'users/getLastConversations',
 	        method: "POST",
 	        data: data
 			  }).then(function(response) {
@@ -157,7 +164,37 @@ angular.module('ws', [])//Declaramos el modulo
 					defered.reject(response);
 			  });
 				return promise;
-			}
+			},
+
+			updateAlarms : function(username, time, description){
+				var defered = $q.defer();
+        var promise = defered.promise;
+				var data = {
+					username: username,
+					time: time,
+					description: description
+				};
+				$http.defaults.headers.post["Content-Type"] = "application/json";
+				$http({
+	        url: getPath() + 'users/updateAlarms',
+	        method: "POST",
+	        data: data
+			  }).then(function(response) {
+			            // success
+					defered.resolve(response);
+			  },
+			  function(response) { // optional
+			            // failed
+					defered.reject(response);
+			  });
+				return promise;
+			},
+
+			setPath : function(newPath) {
+				path = newPath;
+			},
+
+			getPath : getPath
 
 		}
 	});

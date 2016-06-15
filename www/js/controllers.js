@@ -84,23 +84,50 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker', 'ngCordova'])
 ])
 
 
-.controller('Pills', function($scope) {
+.controller('Pills', ['$scope','$state', 'ws', '$q', '$ionicPopup', '$interval',
+  function($scope, $state, ws, $q, $ionicPopup, $interval){
   console.log("Pills controller2");
   $scope.playlists = [
-    { title: 'Nolotil', id: 1, time: '10:30' },
-    { title: 'Primperan', id: 2, time: '10:00' },
-    { title: 'Ibuprofeno', id: 3, time: '16:30' },
-    { title: 'Doxazosina', id: 4, time: '22:00' },
-    { title: 'Dalsy', id: 5, time: '22:30' },
-    { title: 'Astorbastatina', id: 6, time: '16:00' }
+
   ];
+  var DELAY = 3000;
+  $interval(getNotifications, DELAY);
+  getNotifications();
+  function getNotifications(){
+    ws.getNotifications(localStorage.getItem("username")).then(function (result){
+      // console.log("DATA: " + JSON.stringify(result, null, 2));
+      console.warn('getNptifications', result);
+      // $scope.alarms = [];
+      $scope.playlists = result.data[0].medicamentos;
+      // for(var alarm in result.data){
+      //
+      //   var time = result.data[alarm].time;
+      //   time = time.replace("T", " ");
+      //   time = time.substring(0,19);
+      //
+      //   $scope.alarms.push({ title: result.data[alarm].userText, id:result.data[alarm].userId , time: time });
+      // }
+    }).catch(function(err) {
+      console.log("Error en la petición de base de datos de notificaciones");
+    });
+  };
 
-})
+  $scope.createAlarm = function(){
+    $state.go('app.pillDetail');
+  };
 
-.controller('Settings', function($scope) {
+
+}])
+
+.controller('Settings', ['$scope', 'ws', function($scope, ws) {
   console.log("Settings controller...");
 
-})
+  $scope.path = ws.getPath();
+
+  $scope.setPath = function (newPath) {
+    ws.setPath(newPath);
+  }
+}])
 
 .controller('Info', ['$scope', '$interval', '$state', 'ws', '$q', '$ionicPopup',
   function($scope, $interval, $state, ws, $q, $ionicPopup) {
@@ -118,7 +145,7 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker', 'ngCordova'])
           time = time.replace("T", " ");
           time = time.substring(0,19);
 
-          $scope.conversations.push({ userText: result.data[conversation].userText + conversation, id:result.data[conversation].userId , time: time, iaText: result.data[conversation].iaText });
+          $scope.conversations.push({ userText: result.data[conversation].userText, id:result.data[conversation].userId , time: time, iaText: result.data[conversation].iaText });
         }
       }).catch(function(err) {
         console.log("Error en la petición de base de datos.");
@@ -198,9 +225,11 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker', 'ngCordova'])
 })
 
 
-.controller('PillDetail', function($scope, ionicTimePicker) {
+.controller('PillDetail', ['$scope','$state', 'ws', '$q', '$ionicPopup', 'ionicTimePicker',
+  function($scope, $state, ws, $q, $ionicPopup, ionicTimePicker){
+  $scope.alarmDescription = "";
   console.log("Pills detail controller");
-
+  $scope.timeValue = "00:00";
   $scope.openTime = function(){
     console.log("openTime function");
     var ipObj1 = {
@@ -212,18 +241,41 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker', 'ngCordova'])
         var time = selectedTime.getUTCHours() + ":" +
           selectedTime.getUTCMinutes() + "";
         console.log(time);
-        $scope.timeValue = time;
+
+        if(time.length == 4){
+            $scope.timeValue = time + "0";
+        }else{
+            $scope.timeValue = time + "";
+        }
+
       }
     },
       inputTime: 50400,   //Optional
       format: 24,         //Optional
       step: 15,           //Optional
-      setLabel: 'Set2'    //Optional
+      setLabel: 'Set'    //Optional
     };
 
     ionicTimePicker.openTimePicker(ipObj1);
-  }
-})
+
+  };
+
+  $scope.saveAlarm = function (time, descripcion){
+    if(descripcion == ""){
+      descripcion = "Es la hora de tomarte la medicación."
+    }
+    ws.updateAlarms(localStorage.getItem("username"), time, descripcion).then(function (result){
+      console.log("Alarm update: " + JSON.stringify(result, null, 2));
+      $state.go('app.pills');
+    }).catch(function(err) {
+      console.log("Error en la petición a base de datos para ctualización de alarmas");
+    });
+  };
+
+  $scope.deleteAlarm = function(){
+    $state.go('app.pills');
+  };
+}])
 
 .controller('Login', ['$scope','$state', 'ws', '$q', '$ionicPopup',
   function($scope, $state, ws, $q, $ionicPopup) {
@@ -297,37 +349,64 @@ angular.module('starter.controllers', ['ws', 'ionic-timepicker', 'ngCordova'])
   }
 ])
 
-.controller('HomeRecordCtrl',['$scope','$state', 'ws', '$q', '$ionicPopup', '$rootScope', '$ionicPlatform', '$cordovaLocalNotification',
-  function($scope, $state, ws, $q, $ionicPopup, $rootScope, $ionicPlatform, $cordovaLocalNotification) {
+.controller('HomeRecordCtrl',['$scope','$state', 'ws', '$q', '$ionicPopup', '$rootScope', '$ionicPlatform', '$cordovaLocalNotification','$interval',
+  function($scope, $state, ws, $q, $ionicPopup, $rootScope, $ionicPlatform, $cordovaLocalNotification, $interval) {
   //$scope.textTranslate = "Texto traducido";
 
   //Seteando las alarmas.
+  var DELAY = 60000;
+  $interval(checkAlarms, DELAY);
 
+  function checkAlarms(){
+    console.log(JSON.parse(localStorage.getItem("medicamentos")));
+
+    var alarms = JSON.parse(localStorage.getItem("medicamentos"));
+
+    var alarmTime = new Date();
+    alarmTime.setMinutes(alarmTime.getMinutes() + 1);
+    alarmTime = alarmTime + "";
+    alarmTime = alarmTime.substring(16, 21);
+    console.log("ALARMTIME SUBTRING:" + alarmTime);
+
+    alarms.map(function (alarm) {
+      console.log("ALARM: " +  alarm.time);
+      if(alarm.time == alarmTime){
+        console.log("ALARM!!!!!!!");
+        TTS
+        .speak({
+            text: alarm.description,
+            locale: 'es-ES',
+            rate: 0.75
+        }, function () {
+            //alert('success');
+        }, function (reason) {
+            alert(reason);
+        });
+
+      }
+    });
+
+  };
   $ionicPlatform.ready(function () {
 
     // ========== Scheduling
 
-    $scope.add = function () {
-      var now = new Date().getTime();
-      var _10SecondsFromNow = new Date(now + 10 * 1000);
-
-      $cordovaLocalNotification.schedule({
-        id: 1,
-        title: 'Title here',
-        text: 'Text here',
-        at: _10SecondsFromNow
-      }).then(function (result) {
-        console.log("OK");
-      });
-    };
-
-    $scope.isScheduled = function() {
-        $cordovaLocalNotification.isScheduled("1").then(function(isScheduled) {
-            alert("Notification 1234 Scheduled: " + isScheduled);
-        });
-    }
+    var alarmTime = new Date();
+    alarmTime.setMinutes(alarmTime.getMinutes() + 1);
+    alarmTime = alarmTime + "";
+    alarmTime = alarmTime.substring(4, 10);
+    console.log("ALARMTIME SUBTRING:" + alarmTime);
 
 
+    ws.getNotifications(localStorage.getItem("username")).then(function (result){
+      console.log("Notification: " + JSON.stringify(result, null, 2));
+      var alarms = result.data[0].medicamentos;
+      localStorage.setItem("medicamentos", JSON.stringify(alarms));
+
+
+    }).catch(function(err) {
+      console.log("Error en la petición de base de datos.");
+    });
 
   });
 
